@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diploma Dispatch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- General & Typography --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-grey background */
+            color: #2c3e50; /* Dark text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        #game-container {
+            background: #ffffff; /* White container background */
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            margin: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-height: 80vh;
+            position: relative; /* For absolute positioning of screens */
+        }
+
+        h1, h2, h3 {
+            color: #3498db; /* Blue for titles */
+            margin: 0;
+            padding: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Screens & Layout --- */
+        .game-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1; /* Default state for screens that are visible */
+        }
+        
+        .screen-content {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #intro-screen h2, #instructions-screen h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        #instructions-screen p {
+            max-width: 600px;
+            text-align: left;
+            margin: 0;
+        }
+
+        /* --- Main Desk Area --- */
+        #desk {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        #student-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+
+        /* Responsive ordering for mobile */
+        #student-dilemma {
+            order: 1;
+        }
+        
+        #student-avatar {
+            order: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+        }
+
+        #student-image {
+            width: 100%; 
+            max-width: 150px; 
+            height: auto;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #f39c12; 
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
+            transition: transform 0.3s ease;
+        }
+        
+        #student-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Speech Bubble Styling --- */
+        #student-dilemma {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border: 2px solid #bdc3c7;
+            border-radius: 15px;
+            padding: 15px 20px;
+            position: relative;
+            font-style: italic;
+            font-size: clamp(1em, 3vw, 1.1em); 
+            max-width: 100%; 
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        /* Speech bubble tail for mobile, pointing down */
+        #student-dilemma:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid #ecf0f1; /* Changed to border-top */
+            bottom: -15px; /* Changed to bottom */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* --- Responsive layout for avatar and speech bubble --- */
+        @media (min-width: 600px) {
+            #student-profile {
+                flex-direction: row;
+                justify-content: center;
+            }
+            #student-dilemma {
+                order: 2; /* Set to second in row */
+                margin: 0;
+                max-width: 50%;
+                text-align: left;
+                align-self: flex-start;
+                font-size: 1.1em;
+            }
+            #student-avatar {
+                order: 1;
+                width: auto;
+            }
+            /* Speech bubble tail for desktop, pointing left */
+            #student-dilemma:after {
+                border: none; 
+                border-top: 15px solid transparent;
+                border-bottom: 15px solid transparent;
+                border-right: 15px solid #ecf0f1;
+                left: -15px;
+                top: 30px;
+                transform: translateX(0);
+            }
+        }
+        
+        /* --- Controls & Status --- */
+        #controls-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 250px; 
+        }
+        
+        #controls #submit-stamp {
+            flex-grow: 1;
+            min-width: 0; 
+        }
+
+        .button {
+            padding: 12px 25px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .button.small {
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+
+        #submit-stamp {
+            background-color: #3498db; 
+            color: white;
+            flex-grow: 1;
+        }
+        #submit-stamp:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        #play-button, #return-button {
+            background-color: #2ecc71; 
+            color: white;
+        }
+        #play-button:hover, #return-button:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        #instructions-button {
+            background-color: #9b59b6; 
+            color: white;
+        }
+        #instructions-button:hover {
+            background-color: #8e44ad;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #almanac-button {
+            background-color: #f39c12; 
+            color: white;
+            width: 100%;
+            max-width: 250px;
+        }
+        #almanac-button:hover {
+            background-color: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #bdc3c7;
+            background-color: #f8f8f8;
+            font-family: 'Inter', sans-serif;
+            font-size: 1em;
+            width: 100%;
+            max-width: 250px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592c.859 0 1.32 1.013.753 1.658l-4.796 5.482a1 1 0 0 1-1.506 0z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+            cursor: pointer;
+        }
+        
+        #queue-length {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* --- Almanac Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 2px solid #3498db;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: left;
+            position: relative;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #bdc3c7;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .close-button:hover {
+            color: #e74c3c;
+        }
+
+        .diploma-entry {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e0e6ec;
+            padding-bottom: 15px;
+        }
+        .diploma-entry:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .correct-stamp {
+            background-color: #2ecc71; 
+        }
+        .incorrect-stamp {
+            background-color: #e74c3c; 
+        }
+        
+        .game-end-screen {
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        
+        <!-- Intro Screen -->
+        <div id="intro-screen" class="game-screen">
+            <h2>Diploma Dispatch</h2>
+            <div id="intro-buttons">
+                <button id="play-button" class="button">Play</button>
+                <button id="instructions-button" class="button">Instructions</button>
+            </div>
+        </div>
+
+        <!-- Instructions Screen -->
+        <div id="instructions-screen" class="game-screen" style="display: none;">
+            <div class="screen-content">
+                <h2>Instructions</h2>
+                <p>Welcome to Diploma Dispatch! Your job is to help students get the right diploma based on their needs. Read their dilemma, consult the Diploma Information, and stamp the record with the correct course.</p>
+                <p>Each correct stamp earns you a point. Incorrect stamps move you to the next student without a point. Serve all 10 students to complete the game and see your final score!</p>
+                <button id="return-button" class="button">Return to Main Menu</button>
+            </div>
+        </div>
+
+        <!-- Main Game Desk Screen -->
+        <div id="desk" class="game-screen" style="display: none;">
+            <div id="student-profile">
+                <div id="student-dilemma"></div>
+                <div id="student-avatar">
+                    <img id="student-image" src="" alt="Student">
+                </div>
+            </div>
+            
+            <div id="controls-container">
+                <select id="diploma-dropdown"></select>
+                <div id="controls">
+                    <button id="submit-stamp" class="button">Stamp</button>
+                    <span id="queue-length">Queue: 10</span>
+                </div>
+                <button id="almanac-button" class="button">Open Diploma Information</button>
+            </div>
+        </div>
+
+        <!-- The Almanac Modal -->
+        <div id="almanac-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeAlmanac()">&times;</span>
+                <h2>Official Diploma Almanac</h2>
+                <div id="almanac-content">
+                    <!-- Almanac data will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Game End Screen -->
+        <div id="game-end-screen" class="game-screen" style="display: none;">
+            <div class="game-end-screen">
+                <h2>Game Over!</h2>
+                <p>You have served all the students for today.</p>
+                <p>Your final score is: <span id="final-score">0</span></p>
+                <p id="performance-message"></p>
+                <button class="button" onclick="showScreen('intro-screen')">Play Again</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Game Data ---
+        const allStudents = [
+            { name: 'Alex', image: 'https://placehold.co/150x150/CCE0FF/333333?text=Alex', dilemma: 'I want to travel and use my English for business negotiations.', courseNeeded: 'business' },
+            { name: 'Maya', image: 'https://placehold.co/150x150/FFDDC1/333333?text=Maya', dilemma: 'I am worried about writing my university essays next year.', courseNeeded: 'academic' },
+            { name: 'Ben', image: 'https://placehold.co/150x150/D4EDDA/333333?text=Ben', dilemma: 'I love telling stories, but my grammar sometimes gets in the way.', courseNeeded: 'creative' },
+            { name: 'Chloe', image: 'https://placehold.co/150x150/F8D7DA/333333?text=Chloe', dilemma: 'I get nervous giving presentations at work. I need more confidence!', courseNeeded: 'public-speaking' },
+            { name: 'Leo', image: 'https://placehold.co/150x150/E6E6FA/333333?text=Leo', dilemma: 'I want to write a compelling research paper for a scholarship application.', courseNeeded: 'academic' },
+            { name: 'Sophia', image: 'https://placehold.co/150x150/ADD8E6/333333?text=Sophia', dilemma: 'My dream is to be a news broadcaster, but I need to improve my verbal clarity.', courseNeeded: 'public-speaking' },
+            { name: 'Daniel', image: 'https://placehold.co/150x150/D1C4E9/333333?text=Daniel', dilemma: 'I am starting my own online business and need to write persuasive emails.', courseNeeded: 'business' },
+            { name: 'Isla', image: 'https://placehold.co/150x150/FFE0B2/333333?text=Isla', dilemma: 'I have a great idea for a novel, but I need to learn how to structure the plot.', courseNeeded: 'creative' },
+            { name: 'Zack', image: 'https://placehold.co/150x150/B2EBF2/333333?text=Zack', dilemma: 'I want to attend debates and confidently express my opinions.', courseNeeded: 'public-speaking' },
+            { name: 'Olivia', image: 'https://placehold.co/150x150/C8E6C9/333333?text=Olivia', dilemma: 'I need to write a proposal for a project and require a professional tone.', courseNeeded: 'business' },
+            { name: 'Liam', image: 'https://placehold.co/150x150/E0E7FF/333333?text=Liam', dilemma: 'My job requires a lot of international client calls, and I want to sound more professional.', courseNeeded: 'business' },
+            { name: 'Mia', image: 'https://placehold.co/150x150/FCE4EC/333333?text=Mia', dilemma: 'I am applying for a foreign university and my personal statement needs to be perfect.', courseNeeded: 'academic' },
+            { name: 'Jack', image: 'https://placehold.co/150x150/C8E6C9/333333?text=Jack', dilemma: 'I have a fantasy world in my head, but I don\'t know how to write down the story.', courseNeeded: 'creative' },
+            { name: 'Freya', image: 'https://placehold.co/150x150/FFECB3/333333?text=Freya', dilemma: 'I want to be a TEDx speaker, so I need to captivate my audience.', courseNeeded: 'public-speaking' },
+            { name: 'Noah', image: 'https://placehold.co/150x150/E1BEE7/333333?text=Noah', dilemma: 'I am a journalist and need to write clear, compelling articles.', courseNeeded: 'creative' },
+            { name: 'Ella', image: 'https://placehold.co/150x150/B3E5FC/333333?text=Ella', dilemma: 'I need to be able to present complex data to my colleagues without confusing them.', courseNeeded: 'public-speaking' },
+            { name: 'Lucas', image: 'https://placehold.co/150x150/D7CCC8/333333?text=Lucas', dilemma: 'I\'m starting a new marketing job and need to be effective in meetings and emails.', courseNeeded: 'business' },
+            { name: 'Hannah', image: 'https://placehold.co/150x150/FFCDD2/333333?text=Hannah', dilemma: 'I need to write a thesis for my masters degree.', courseNeeded: 'academic' },
+            { name: 'Owen', image: 'https://placehold.co/150x150/C5E1A5/333333?text=Owen', dilemma: 'I want to write movie scripts and create believable characters.', courseNeeded: 'creative' },
+            { name: 'Eva', image: 'https://placehold.co/150x150/BDBDBD/333333?text=Eva', dilemma: 'I need to give a speech at my best friend\'s wedding and I get really shy.', courseNeeded: 'public-speaking' },
+        ];
+
+        const diplomas = [
+            { id: 'business', name: 'Business English', keySkills: ['Negotiation', 'Presentations', 'Professional Email'], description: 'Designed for professionals. Focuses on communication skills needed for the global business environment.' },
+            { id: 'academic', name: 'Academic Writing', keySkills: ['Essay Structure', 'Research', 'Citation'], description: 'For students planning to attend university. Teaches the fundamentals of academic writing and critical analysis.' },
+            { id: 'public-speaking', name: 'Public Speaking', keySkills: ['Confidence', 'Pronunciation', 'Audience Engagement'], description: 'Builds confidence and skills for giving compelling presentations and speeches in any setting.' },
+            { id: 'creative', name: 'Creative Writing', keySkills: ['Storytelling', 'Plot Development', 'Character Creation'], description: 'For aspiring writers. Explores fiction and non-fiction writing techniques, with a focus on personal expression.' }
+        ];
+
+        // --- Game State Variables ---
+        let score = 0;
+        let studentsServed = 0;
+        const maxStudents = 10;
+        let currentStudent = null;
+        let randomizedStudents = [];
+
+        // --- DOM Elements ---
+        const introScreen = document.getElementById('intro-screen');
+        const instructionsScreen = document.getElementById('instructions-screen');
+        const deskScreen = document.getElementById('desk');
+        const gameEndScreen = document.getElementById('game-end-screen');
+
+        const queueLengthEl = document.getElementById('queue-length');
+        const studentImageEl = document.getElementById('student-image');
+        const studentDilemmaEl = document.getElementById('student-dilemma');
+        const diplomaDropdown = document.getElementById('diploma-dropdown');
+        const submitStampButton = document.getElementById('submit-stamp');
+        const almanacButton = document.getElementById('almanac-button');
+        const almanacModal = document.getElementById('almanac-modal');
+        const almanacContentEl = document.getElementById('almanac-content');
+        const finalScoreEl = document.getElementById('final-score');
+        const performanceMessageEl = document.getElementById('performance-message');
+
+        // --- Utility Functions ---
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+
+        function showScreen(screenId) {
+            const screens = [introScreen, instructionsScreen, deskScreen, gameEndScreen];
+            screens.forEach(screen => {
+                if (screen.id === screenId) {
+                    screen.style.display = 'flex';
+                } 
+                else {
+                    screen.style.display = 'none';
+                }
+            });
+
+            // Ensure the Almanac Modal is closed when transitioning screens
+            if (almanacModal.style.display === 'flex') {
+                closeAlmanac();
+            }
+        }
+        
+        // A placeholder for a non-alert message box function
+        function showFeedbackMessage(message) {
+            console.log(message);
+        }
+
+        // --- Game Functions ---
+        function startGame() {
+            score = 0;
+            studentsServed = 0;
+            randomizedStudents = shuffle([...allStudents]).slice(0, maxStudents); 
+            populateDiplomaDropdown();
+            createAlmanacContent();
+            loadNextStudent();
+            showScreen('desk');
+        }
+
+        function initializeGame() {
+            // Set up all button listeners
+            document.getElementById('play-button').addEventListener('click', startGame);
+            document.getElementById('instructions-button').addEventListener('click', () => showScreen('instructions-screen'));
+            document.getElementById('return-button').addEventListener('click', () => showScreen('intro-screen'));
+            almanacButton.addEventListener('click', openAlmanac);
+            submitStampButton.addEventListener('click', handleSubmit);
+            document.querySelector('#game-end-screen .button').addEventListener('click', () => showScreen('intro-screen'));
+            
+            showScreen('intro-screen');
+        }
+
+        function populateDiplomaDropdown() {
+            diplomaDropdown.innerHTML = '<option value="">Select a Diploma...</option>';
+            diplomas.forEach(diploma => {
+                const option = document.createElement('option');
+                option.value = diploma.id;
+                option.textContent = diploma.name;
+                diplomaDropdown.appendChild(option);
+            });
+        }
+        
+        function createAlmanacContent() {
+            almanacContentEl.innerHTML = '';
+            diplomas.forEach(diploma => {
+                const entry = document.createElement('div');
+                entry.classList.add('diploma-entry');
+                entry.innerHTML = `
+                    <h3>${diploma.name}</h3>
+                    <p><strong>Description:</strong> ${diploma.description}</p>
+                    <p><strong>Key Skills:</strong> ${diploma.keySkills.join(', ')}</p>
+                `;
+                almanacContentEl.appendChild(entry);
+            });
+        }
+
+        function loadNextStudent() {
+            if (studentsServed >= maxStudents) {
+                endGame();
+                return;
+            }
+
+            const studentData = randomizedStudents[studentsServed];
+            currentStudent = studentData;
+
+            studentImageEl.src = studentData.image;
+            studentDilemmaEl.textContent = `"${studentData.dilemma}"`;
+            diplomaDropdown.value = ""; 
+            updateQueueLength();
+        }
+
+        function updateQueueLength() {
+            const remainingStudents = maxStudents - studentsServed;
+            queueLengthEl.textContent = `Queue: ${remainingStudents}`;
+        }
+
+        function handleSubmit() {
+            const selectedDiplomaId = diplomaDropdown.value;
+
+            // Simple validation
+            if (!selectedDiplomaId) {
+                showFeedbackMessage('Please select a diploma to stamp the record.');
+                return;
+            }
+
+            const isCorrect = selectedDiplomaId === currentStudent.courseNeeded;
+            
+            // Animate the submit button to show feedback
+            const submitButton = submitStampButton;
+            submitButton.classList.add(isCorrect ? 'correct-stamp' : 'incorrect-stamp');
+
+            setTimeout(() => {
+                submitButton.classList.remove('correct-stamp', 'incorrect-stamp');
+                
+                if (isCorrect) {
+                    score++;
+                }
+                
+                studentsServed++;
+                
+                loadNextStudent();
+            }, 500);
+        }
+
+
+        function openAlmanac() {
+            almanacModal.style.display = 'flex';
+        }
+
+        function closeAlmanac() {
+            almanacModal.style.display = 'none';
+        }
+
+        function endGame() {
+            showScreen('game-end-screen');
+            finalScoreEl.textContent = score;
+            
+            let message = '';
+            const percentage = (score / maxStudents) * 100;
+            if (percentage >= 80) {
+                message = "Excellent job! Your recommendations were spot on. You're a true Student Advisor.";
+            } else if (percentage >= 50) {
+                message = "Good effort! You've got a solid understanding of the courses. A little more study and you'll be an expert.";
+            } else {
+                message = "You've got the spirit! A bit more time with the Almanac will help you master the recommendations.";
+            }
+            performanceMessageEl.textContent = message;
+        }
+
+        window.addEventListener('load', initializeGame);
+
+    </script>
+</body>
+</html>
