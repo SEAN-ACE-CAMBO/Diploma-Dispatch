@@ -89,7 +89,7 @@ h1, h2, h3 {
 
     /* Add your background image for the intro screen */
     background-image: url('img/title.png'); /* <<<< IMPORTANT: REPLACE WITH YOUR ACTUAL IMAGE PATH (ensure it includes the title text) >>>> */
-    background-size: cover; /* Ensures the image covers the entire area */
+    background-size: 100%; /* Ensures the image covers the entire area */
     background-position: top center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents the image from tiling */
     background-color: #c0d9e7; /* Fallback color if image doesn't load (soft school blue) */
