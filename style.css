@@ -1,0 +1,518 @@
+/* --- Google Fonts Import --- */
+/* Make sure this link is in your HTML <head> if you use Montserrat (optional) */
+/* <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet"> */
+
+/* --- General & Typography --- */
+body {
+    font-family: 'Inter', sans-serif;
+    /* Soft sky blue to light green gradient background for the whole page */
+    background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%);
+    color: #4a4a4a; /* Softer dark grey for text */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+#game-container {
+    /* Made transparent to allow body background to show through */
+    width: 100%;
+    max-width: 950px;
+    margin: 30px;
+    padding: 0; /* No padding on the main transparent container */
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Gap between the main game screens */
+    min-height: 85vh;
+    position: relative;
+    /* No background, shadow, or border for the main container */
+}
+
+h1, h2, h3 {
+    color: #5bbad5; /* A fresh, appealing blue for titles */
+    margin: 0;
+    padding: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow for pop */
+    font-family: 'Montserrat', sans-serif; /* Optional: A slightly different font for headings */
+}
+
+/* --- Screens & Layout --- */
+.game-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 700px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px; /* Padding for individual screens */
+    box-sizing: border-box;
+    transition: opacity 0.5s ease-in-out;
+    /* Default visibility and interaction for screens */
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1; /* Default layer for visible screens */
+}
+
+/* Rule for hidden screens to prevent interaction and send them to the back */
+.game-screen[style*="display: none"] {
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.screen-content {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* --- Intro Screen Specific Styling --- */
+#intro-screen {
+    /* Important: Set a high z-index for the intro screen when it's active */
+    z-index: 10; 
+
+    /* Add your background image for the intro screen */
+    background-image: url('img/title.png'); /* <<<< IMPORTANT: REPLACE WITH YOUR ACTUAL IMAGE PATH (ensure it includes the title text) >>>> */
+    background-size: cover; /* Ensures the image covers the entire area */
+    background-position: top center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from tiling */
+    background-color: #c0d9e7; /* Fallback color if image doesn't load (soft school blue) */
+    
+    position: relative; /* Needed for the ::before pseudo-element */
+    overflow: hidden; /* To ensure the image and overlay are clipped to intro-screen's bounds */
+    border-radius: 20px; /* Optional: Give the intro screen itself a subtle border-radius */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow to the intro screen */
+
+    /* Align content to the bottom for buttons, assuming title is in the image */
+    justify-content: flex-end; /* Pushes content (buttons) to the bottom */
+    padding-bottom: 50px; /* Add some padding at the bottom for the buttons */
+}
+
+/* Add a semi-transparent overlay for overall atmosphere and subtle blending,
+   especially useful if your background image is very vibrant or has sharp edges */
+#intro-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3); /* Lighter 30% opaque white overlay */
+    /* Adjust opacity (0.1 to 0.5) to subtly blend the image and make buttons stand out slightly */
+    z-index: -1; /* Places the overlay behind the buttons */
+}
+
+/* Remove or comment out the h2 styling for intro-screen as it's now part of the image */
+#intro-screen h2 {
+    /* font-size: 3em; */
+    /* margin-bottom: 25px; */
+    /* letter-spacing: 1px; */
+    /* color: #333; */
+    /* text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); */
+    display: none; /* Hide the h2 element if its content is in the image */
+}
+
+#intro-screen #intro-buttons {
+    z-index: 1; /* Ensure buttons are above the overlay */
+    margin-bottom: 0; /* Remove any default bottom margin from the buttons container */
+    gap: 20px; /* Add some gap between the buttons */
+}
+
+
+#instructions-screen h2 {
+    font-size: 3em; /* Larger, more impactful titles */
+    margin-bottom: 25px;
+    letter-spacing: 1px; /* A bit of spacing for titles */
+}
+
+#instructions-screen p {
+    max-width: 650px; /* Slightly wider text block */
+    text-align: center; /* Center align for intro/instructions */
+    margin: 0 auto 15px auto; /* Center the paragraphs and add bottom margin */
+    font-size: 1.1em;
+    color: #555; /* A bit lighter for instructional text */
+}
+
+/* --- Main Desk Area --- */
+#desk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Keep existing gap for consistency with flex-direction column */
+    flex-grow: 1;
+    padding: 20px; /* Padding for the desk screen content */
+}
+
+#student-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* Increased gap */
+    padding: 25px; /* More padding */
+    width: 100%;
+    flex-wrap: wrap; 
+    justify-content: center;
+    background-color: #f8fcfb; /* Very light, almost white background for contrast */
+    border-radius: 18px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); /* Subtle inner shadow */
+}
+
+/* Responsive ordering for mobile */
+#student-dilemma {
+    order: 1;
+}
+
+#student-avatar {
+    order: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+#student-image {
+    width: 100%; 
+    max-width: 180px; /* Slightly larger avatar */
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #ffcc80; /* Softer, pastel orange/peach border */
+    box-shadow: 0 0 20px rgba(255, 204, 128, 0.7); /* Matching glow with softer color */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+}
+
+#student-image:hover {
+    transform: scale(1.08) rotate(2deg); /* Slightly more playful hover effect */
+    box-shadow: 0 0 25px rgba(255, 204, 128, 0.9);
+}
+
+/* --- Speech Bubble Styling --- */
+#student-dilemma {
+    background-color: #fcf4d4; /* A light, warm, creamy yellow for the bubble */
+    color: #4a4a4a;
+    border: 2px solid #f9e79f; /* Matching slightly darker border */
+    border-radius: 20px; /* More rounded */
+    padding: 20px 25px; /* More padding */
+    position: relative;
+    font-style: italic;
+    font-size: clamp(1em, 3.5vw, 1.2em); /* Slightly larger font */
+    max-width: 100%; 
+    text-align: left; /* Keep this for readability */
+    margin-top: 25px; /* Adjust margin if needed */
+    line-height: 1.7; /* Increased line height for readability */
+}
+
+/* Speech bubble tail for mobile, pointing down */
+#student-dilemma:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent; /* Larger tail */
+    border-right: 18px solid transparent; /* Larger tail */
+    border-top: 18px solid #fcf4d4; /* Match background color */
+    bottom: -18px; /* Match tail size */
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 2px 1px rgba(0,0,0,0.1)); /* Subtle shadow for the tail */
+}
+
+/* --- Responsive layout for avatar and speech bubble --- */
+@media (min-width: 600px) {
+    #student-profile {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start; /* Align items to the top in row layout */
+    }
+    #student-dilemma {
+        order: 2; /* Set to second in row */
+        margin: 0;
+        max-width: 60%; /* Allow dilemma to take more space */
+        text-align: left;
+        align-self: flex-start;
+        font-size: 1.2em;
+    }
+    #student-avatar {
+        order: 1;
+        width: auto;
+        padding-top: 10px; /* Slight padding to align better if dilemma has more text */
+    }
+    /* Speech bubble tail for desktop, pointing left */
+    #student-dilemma:after {
+        border: none; /* Reset mobile border */
+        border-top: 18px solid transparent;
+        border-bottom: 18px solid transparent;
+        border-right: 18px solid #fcf4d4; /* Tail points left */
+        left: -18px; /* Position to the left */
+        top: 30px; /* Adjust vertical position */
+        transform: translateX(0);
+        filter: drop-shadow(-2px 0 1px rgba(0,0,0,0.1)); /* Shadow for left-pointing tail */
+    }
+}
+
+/* --- Controls & Status --- */
+#controls-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Increased gap */
+    width: 100%;
+    padding-top: 20px; /* Add some space above controls */
+    border-top: 1px dashed #e0e0e0; /* Subtle dashed line separator */
+}
+
+#controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Increased gap between button and queue */
+    width: 100%;
+    max-width: 300px; /* Slightly wider control area */
+}
+
+#controls #submit-stamp {
+    flex-grow: 1;
+    min-width: 0; 
+}
+
+.button {
+    padding: 14px 30px; /* More generous padding */
+    font-size: 1.05em; /* Slightly larger font */
+    border-radius: 10px; /* More rounded buttons */
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out; /* Slightly longer transition for smoothness */
+    font-weight: 700; /* Bolder text for impact */
+    text-transform: uppercase;
+    letter-spacing: 0.8px; /* Slightly less aggressive letter spacing */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Softer, slightly larger shadow */
+    border-bottom: 3px solid rgba(0,0,0,0.2); /* For a subtle "pressed" look */
+}
+
+.button:active {
+    transform: translateY(2px); /* Simulate a press */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.button.small {
+    padding: 12px 25px;
+    font-size: 0.95em;
+}
+
+#submit-enrol {
+    background-color: #88d4c1; /* Soft mint green */
+    color: white;
+    flex-grow: 1;
+    border-bottom-color: #55a290; /* Darker shade for active/pressed state */
+}
+#submit-enrol:hover {
+    background-color: #6fbfa9; /* Darker on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+#play-button, #return-button {
+    background-color: #82b1ff; /* Gentle sky blue */
+    color: white;
+    border-bottom-color: #5d8edb;
+}
+#play-button:hover, #return-button:hover {
+    background-color: #6a9ceb;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+#instructions-button {
+    background-color: #e0b0ff; /* Soft lavender */
+    color: white;
+    border-bottom-color: #c78dff;
+}
+#instructions-button:hover {
+    background-color: #c993ed;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+#almanac-button {
+    background-color: #f7b76e; /* Warm peach/orange */
+    color: white;
+    width: 100%;
+    max-width: 300px; /* Match other controls width */
+    border-bottom-color: #e69d4e;
+}
+#almanac-button:hover {
+    background-color: #e69d4e;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+select {
+    padding: 12px; /* More padding */
+    border-radius: 10px; /* More rounded */
+    border: 2px solid #b0e0e6; /* Soft blue border */
+    background-color: #ffffff; /* White background for select */
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05em; /* Slightly larger font */
+    width: 100%;
+    max-width: 300px; /* Match other controls width */
+    -webkit-appearance: none; /* Remove default browser styling */
+    -moz-appearance: none;
+    appearance: none;
+    /* Custom SVG for the dropdown arrow (Feather Icons chevron-down) */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2388d4c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center; /* Move arrow slightly right */
+    background-size: 20px; /* Larger arrow */
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); /* Subtle inner shadow for depth */
+}
+
+select:focus {
+    outline: none;
+    border-color: #82b1ff; /* Highlight color on focus */
+    box-shadow: 0 0 0 3px rgba(130, 177, 255, 0.4); /* Soft glow on focus */
+}
+        
+#queue-length {
+    font-weight: 700; /* Bolder */
+    text-align: center;
+    color: #666; /* Softer color */
+    font-size: 1.1em;
+}
+
+/* --- Almanac Modal --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly lighter overlay */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /* Soft blur effect for background */
+    -webkit-backdrop-filter: blur(5px); /* Safari compatibility */
+    animation: fadeInModal 0.3s ease-out; /* Fade in animation */
+}
+
+.modal-content {
+    background: #ffffff;
+    color: #4a4a4a;
+    padding: 35px; /* More padding */
+    border-radius: 18px; /* Softer corners */
+    max-width: 850px; /* Slightly wider */
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 2px solid #82b1ff; /* Matching soft blue border */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Stronger, softer shadow */
+    text-align: left;
+    position: relative;
+    transform: scale(0.95); /* Start slightly smaller for animation */
+    animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Playful pop-in effect */
+}
+
+.close-button {
+    position: absolute;
+    top: 15px; /* Adjust position */
+    right: 20px; /* Adjust position */
+    font-size: 2.5em; /* Larger for easy clicking */
+    font-weight: normal; /* Less bold for a softer look */
+    color: #a0a0a0; /* Softer grey */
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.close-button:hover {
+    color: #e74c3c;
+    transform: rotate(90deg); /* Playful rotate on hover */
+}
+
+.diploma-entry {
+    margin-bottom: 30px; /* More space between entries */
+    border-bottom: 1px dashed #e0e0e0; /* Dashed separator for a lighter feel */
+    padding-bottom: 20px; /* More padding */
+}
+.diploma-entry:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+        
+.correct-stamp {
+    background-color: #2ecc71; 
+}
+.incorrect-stamp {
+    background-color: #e74c3c; 
+}
+
+/* --- Game End Screen --- */
+.game-end-screen {
+    text-align: center;
+    /* Keeping the original fadeIn for the end screen's overall appearance */
+    animation: fadeIn 1s ease-in-out; 
+    background: #ffffff;
+    border-radius: 20px; /* Consistent rounding */
+    padding: 50px; /* More padding */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Consistent shadow */
+}
+
+#game-end-screen h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+#game-end-screen p {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+#final-score {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #82b1ff; /* Match one of the button colors */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+#performance-message {
+    font-style: italic;
+    color: #777;
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+
+/* --- Keyframe Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
