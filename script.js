@@ -255,9 +255,10 @@
             } else if (percentage >= 50) {
                 message = "Good effort! You've got a solid understanding of the courses. A little more study and you'll be an expert.";
             } else {
-                message = "You've got the spirit! A bit more time with the Almanac will help you master the recommendations.";
+                message = "You've got the spirit! A bit more time reading about the diploma courses on offer will help you master the recommendations.";
             }
             performanceMessageEl.textContent = message;
         }
+
 
         window.addEventListener('load', initializeGame);
