@@ -24,13 +24,12 @@
     <div class="screen-content">
       <h2>Instructions</h2>
       <p>
-        Welcome to Diploma Dispatch! Your job is to help students get the right
-        diploma based on their needs. Read their dilemma, consult the Diploma
-        Information, and enrol them in the correct course.
+        Welcome to Diploma Dispatch! Your job is to help students choose the right
+        ACE diploma based on their needs. They will tell you what they need and you can consult the Diploma
+        Information book to enrol them in the correct course.
       </p>
       <p>
-        Each correct enrolment earns you a point. Incorrect enrolments move you
-        to the next student without a point. Serve all 10 students to complete
+        Each correct enrolment earns you a point. Help all 10 students in the queue to complete
         the game and see your final score!
       </p>
       <button id="return-button" class="button">Return to Main Menu</button>
@@ -62,7 +61,7 @@
   <div id="almanac-modal" class="modal">
     <div class="modal-content">
       <span class="close-button" onclick="closeAlmanac()">×</span>
-      <h2>Official Diploma Almanac</h2>
+      <h2>ACE SM Diploma Courses for Term 4 2025</h2>
       <div id="almanac-content">
         <!-- Almanac data will be populated here -->
       </div>
@@ -73,7 +72,7 @@
   <div id="game-end-screen" class="game-screen" style="display: none;">
     <div class="game-end-screen">
       <h2>Game Over!</h2>
-      <p>You have served all the students for today.</p>
+      <p>You have helped all the students for today.</p>
       <p>Your final score is: <span id="final-score">0</span></p>
       <p id="performance-message"></p>
       <button class="button" onclick="showScreen('intro-screen')">
@@ -85,4 +84,5 @@
 
 <script src="script.js"></script>
 </body>
+
 </html>
