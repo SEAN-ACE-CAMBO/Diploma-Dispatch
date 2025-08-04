@@ -141,11 +141,10 @@ h1, h2, h3 {
 
 #intro-logo {
     position: absolute;
-    top: 20px;
-    left: 50%;
+    top: 2px;
+    left: 2px;
     transform: translateX(-50%);
-    width: 80%;
-    max-width: 250px;
+    width: 15px;
     height: auto;
     z-index: 20;
 }
@@ -531,4 +530,5 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
 
