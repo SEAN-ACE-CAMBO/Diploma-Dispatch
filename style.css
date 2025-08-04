@@ -129,7 +129,7 @@ h1, h2, h3 {
     display: none; /* Hide the h2 element if its content is in the image */
 }
 
-#intro-screen #intro-buttons {
+#intro-screen #intro-buttons, #end-buttons {
     z-index: 1; /* Ensure buttons are above the overlay */
     margin-bottom: 0; /* Remove any default bottom margin from the buttons container */
     gap: 20px; /* Add some gap between the buttons */
@@ -530,6 +530,7 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
 
 
 
