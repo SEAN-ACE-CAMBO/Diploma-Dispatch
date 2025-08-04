@@ -139,6 +139,16 @@ h1, h2, h3 {
     flex-direction: column;
 }
 
+#intro-logo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 250px;
+    height: auto;
+    z-index: 20;
+}
 
 #instructions-screen h2 {
     font-size: 3em; /* Larger, more impactful titles */
@@ -521,3 +531,4 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
