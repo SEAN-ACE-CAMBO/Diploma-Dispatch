@@ -344,7 +344,7 @@ h1, h2, h3 {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-#play-button, #return-button, #start-button, #game-end-screen #play-again-button {
+#play-button, #return-button, #start-button, #play-again-button {
     background-color: #82b1ff; /* Gentle sky blue */
     color: white;
     border-bottom-color: #5d8edb;
@@ -358,7 +358,7 @@ h1, h2, h3 {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-#instructions-button, #game-end-screen #enrol-button {
+#instructions-button, #enrol-button {
     background-color: #e0b0ff; /* Soft lavender */
     color: white;
     border-bottom-color: #c78dff;
@@ -372,7 +372,7 @@ h1, h2, h3 {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-#almanac-button, #game-end-screen #info-button {
+#almanac-button, #info-button {
     background-color: #f7b76e; /* Warm peach/orange */
     color: white;
     width: 100%;
@@ -537,6 +537,7 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
 
 
 
