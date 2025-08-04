@@ -348,6 +348,9 @@ h1, h2, h3 {
     background-color: #82b1ff; /* Gentle sky blue */
     color: white;
     border-bottom-color: #5d8edb;
+    width: 100%;
+    max-width: 300px;
+    align-self: center;
 }
 #play-button:hover, #return-button:hover {
     background-color: #6a9ceb;
@@ -359,6 +362,9 @@ h1, h2, h3 {
     background-color: #e0b0ff; /* Soft lavender */
     color: white;
     border-bottom-color: #c78dff;
+    width: 100%;
+    max-width: 300px;
+    align-self: center;
 }
 #instructions-button:hover {
     background-color: #c993ed;
@@ -372,6 +378,7 @@ h1, h2, h3 {
     width: 100%;
     max-width: 300px; /* Match other controls width */
     border-bottom-color: #e69d4e;
+    align-self: center;
 }
 #almanac-button:hover {
     background-color: #e69d4e;
@@ -530,6 +537,7 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
 
 
 
