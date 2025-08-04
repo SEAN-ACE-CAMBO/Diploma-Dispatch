@@ -142,7 +142,7 @@ h1, h2, h3 {
 #intro-logo {
     position: absolute;
     top: 20px;
-    left: 80px;
+    left: 10%;
     transform: translateX(-50%);
     width: 15%;
     height: auto;
@@ -530,6 +530,7 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
 
 
 
