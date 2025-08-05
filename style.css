@@ -133,7 +133,7 @@ h1, h2, h3 {
     top: 10px;
     left: 10%;
     transform: translateX(-50%);
-    width: 15%;
+    width: 70px;
     height: auto;
     z-index: 20;
 }
@@ -563,3 +563,4 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
