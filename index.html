@@ -10,11 +10,11 @@
 </head>
 
 <body>
+<img id="intro-logo" src="img/acelogo.png" alt="ACE Logo">
 <div id="game-container">
   <!-- Intro Screen -->
   <div id="intro-screen" class="game-screen">
-    <img id="intro-logo" src="img/acelogo.png" alt="ACE Logo">
-    <!-- The new Start button -->
+        <!-- The new Start button -->
     <button id="start-button" class="button">Start</button>
     <!-- These buttons are now hidden initially -->
     <div id="intro-buttons" style="display: none;">
@@ -43,22 +43,22 @@
 
   <!-- Main Game Desk Screen -->
   <div id="desk" class="game-screen" style="display: none;">
-    <div id="student-profile">
-      <div id="student-dilemma"></div>
-      <div id="student-avatar">
-        <img id="student-image" src="" alt="Student" />
-      </div>
-    </div>
-
-    <div id="controls-container">
+        <div id="controls-container">
       <select id="diploma-dropdown"></select>
       <div id="controls">
         <button id="submit-enrol" class="button">Enrol</button>
         <span id="queue-length">Queue: 10</span>
       </div>
       <button id="almanac-button" class="button">
-        Open Diploma Information
+        Open Diploma Info
       </button>
+    </div>
+	
+	<div id="student-profile">
+      <div id="student-dilemma"></div>
+      <div id="student-avatar">
+        <img id="student-image" src="" alt="Student" />
+      </div>
     </div>
   </div>
 
