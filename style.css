@@ -119,26 +119,15 @@ h1, h2, h3 {
     z-index: -1; /* Places the overlay behind the buttons */
 }
 
-/* Remove or comment out the h2 styling for intro-screen as it's now part of the image */
 #intro-screen h2 {
-    /* font-size: 3em; */
-    /* margin-bottom: 25px; */
-    /* letter-spacing: 1px; */
-    /* color: #333; */
-    /* text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); */
-    display: none; /* Hide the h2 element if its content is in the image */
+    font-size: 3em; /* Larger, more impactful titles */
+    margin-bottom: 25px;
+    letter-spacing: 1px; /* A bit of spacing for titles */
+    color: #333;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
 }
 
-#intro-screen #intro-buttons, #end-buttons {
-    z-index: 1; /* Ensure buttons are above the overlay */
-    margin-bottom: 0; /* Remove any default bottom margin from the buttons container */
-    gap: 20px; /* Add some gap between the buttons */
-
-    /* The new additions to fix the stacking issue: */
-    display: flex;
-    flex-direction: column;
-}
-
+/* New CSS to style the logo */
 #intro-logo {
     position: absolute;
     top: 20px;
@@ -148,6 +137,17 @@ h1, h2, h3 {
     height: auto;
     z-index: 20;
 }
+
+#intro-screen #intro-buttons {
+    z-index: 1; /* Ensure buttons are above the overlay */
+    margin-bottom: 0; /* Remove any default bottom margin from the buttons container */
+    gap: 20px; /* Add some gap between the buttons */
+
+    /* The new additions to fix the stacking issue: */
+    display: flex;
+    flex-direction: column;
+}
+
 
 #instructions-screen h2 {
     font-size: 3em; /* Larger, more impactful titles */
@@ -348,9 +348,6 @@ h1, h2, h3 {
     background-color: #82b1ff; /* Gentle sky blue */
     color: white;
     border-bottom-color: #5d8edb;
-    width: 100%;
-    max-width: 300px;
-    align-self: center;
 }
 #play-button:hover, #return-button:hover {
     background-color: #6a9ceb;
@@ -358,13 +355,10 @@ h1, h2, h3 {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-#instructions-button, #enrol-button {
+#instructions-button, #back-to-score-screen-button {
     background-color: #e0b0ff; /* Soft lavender */
     color: white;
     border-bottom-color: #c78dff;
-    width: 100%;
-    max-width: 300px;
-    align-self: center;
 }
 #instructions-button:hover {
     background-color: #c993ed;
@@ -372,13 +366,12 @@ h1, h2, h3 {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-#almanac-button, #info-button {
+#almanac-button, #enrol-button, #enrol-now-button {
     background-color: #f7b76e; /* Warm peach/orange */
     color: white;
     width: 100%;
     max-width: 300px; /* Match other controls width */
     border-bottom-color: #e69d4e;
-    align-self: center;
 }
 #almanac-button:hover {
     background-color: #e69d4e;
@@ -522,6 +515,39 @@ select:focus {
     font-size: 1.1em;
 }
 
+/* New styles for the ACE App Enrolment Screen */
+#app-enroll-screen .screen-content {
+    max-width: 700px; /* Adjust max-width for this screen's content */
+    padding: 30px;
+}
+
+#ace-app-ss {
+    width: 150px; /* Square image size */
+    height: 150px;
+    object-fit: contain; /* Ensure the image fits within the bounds */
+    margin: 20px auto;
+    border-radius: 20px; /* Slightly rounded corners for the image */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.app-enroll-buttons, .end-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Space between buttons */
+    margin-top: 20px;
+    width: 100%;
+    max-width: 300px; /* Constrain button width */
+}
+
+.end-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Space between buttons */
+    margin-top: 20px;
+    width: 100%;
+    max-width: 300px; /* Constrain button width */
+}
+
 /* --- Keyframe Animations --- */
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
@@ -537,14 +563,3 @@ select:focus {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
-
-
-
-
-
-
-
-
-
-
-

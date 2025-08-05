@@ -14,7 +14,6 @@
   <!-- Intro Screen -->
   <div id="intro-screen" class="game-screen">
     <img id="intro-logo" src="img/acelogo.png" alt="ACE Logo">
-    <h2>Diploma Dispatch</h2>
     <!-- The new Start button -->
     <button id="start-button" class="button">Start</button>
     <!-- These buttons are now hidden initially -->
@@ -68,7 +67,6 @@
     <div class="modal-content">
       <span class="close-button" onclick="closeAlmanac()">×</span>
       <h2>ACE SM Diploma Courses for Term 4 2025</h2>
-	  </br>
       <div id="almanac-content">
         <!-- Almanac data will be populated here -->
       </div>
@@ -82,30 +80,40 @@
       <p>You have helped all the students for today.</p>
       <p>Your final score is: <span id="final-score">0</span></p>
       <p id="performance-message"></p>
-	<div id="end-buttons">
-	      <button id="play-again-button" class="button" onclick="showScreen('intro-screen')">
-	        Play Again
-	      </button>
-	      <button id="info-button" class="button" onclick="document.location='https://acecambodia.org/ACEWebsite/Programs/Diploma%20in%20English'">
-	        More information
-	      </button>
-	      <button id="enrol-button" class="button" onclick="document.location='https://acecambodia.org/ACEWebsite/Enrolment'">
-	        Enrol now!
-	      </button>
-	</div>    
+      <div class="end-buttons">
+        <button id="play-again-button" class="button" onclick="showScreen('intro-screen')">
+          Play Again
+        </button>
+        <button id="enrol-now-button" class="button">
+          Enrol Now!
+        </button>
       </div>
+    </div>
   </div>
+
+  <!-- New ACE App Enrolment Screen -->
+  <div id="app-enroll-screen" class="game-screen" style="display: none;">
+    <div class="screen-content">
+      <h2>Ready to Enrol?</h2>
+      <p>
+        Thank you for helping our students! To finalize their enrolment and explore more courses,
+        please use the official ACE App.
+      </p>
+      <img id="ace-app-ss" src="img/ace_app_ss.png" alt="ACE App Screenshot">
+      <div class="app-enroll-buttons">
+        <button id="enrol-button" class="button" onclick="document.location='https://app.acecambodia.org'">
+	        Open the ACE App
+	      </button>
+        <button id="back-to-score-screen-button" class="button">
+          Back to Score
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="script.js"></script>
 </body>
 
 </html>
-
-
-
-
-
-
-
-

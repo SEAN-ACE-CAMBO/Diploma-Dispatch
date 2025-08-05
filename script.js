@@ -66,15 +66,15 @@ const introScreen = document.getElementById('intro-screen');
 const instructionsScreen = document.getElementById('instructions-screen');
 const deskScreen = document.getElementById('desk');
 const gameEndScreen = document.getElementById('game-end-screen');
+const appEnrollScreen = document.getElementById('app-enroll-screen'); // New screen element
 
 const introMusic = document.getElementById('introMusic');
-// New audio objects for the chime and game music
-const chimeSound = new Audio('audio/chime.mp3'); 
+const chimeSound = new Audio('audio/chime.mp3');
 const gameMusic = new Audio('audio/game_music.mp3');
 gameMusic.loop = true;
 
-const startButton = document.getElementById('start-button'); // Reference to the new start button
-const introButtons = document.getElementById('intro-buttons'); // Reference to the buttons container
+const startButton = document.getElementById('start-button');
+const introButtons = document.getElementById('intro-buttons');
 
 const queueLengthEl = document.getElementById('queue-length');
 const studentImageEl = document.getElementById('student-image');
@@ -87,6 +87,9 @@ const almanacContentEl = document.getElementById('almanac-content');
 const finalScoreEl = document.getElementById('final-score');
 const performanceMessageEl = document.getElementById('performance-message');
 
+const enrolOnlineButton = document.getElementById('enrol-now-button'); // New button on game end screen
+const backToScoreScreenButton = document.getElementById('back-to-score-screen-button'); // New button on app enroll screen
+
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -96,7 +99,7 @@ function shuffle(array) {
 }
 
 function showScreen(screenId) {
-    const screens = [introScreen, instructionsScreen, deskScreen, gameEndScreen];
+    const screens = [introScreen, instructionsScreen, deskScreen, gameEndScreen, appEnrollScreen]; // Include new screen
     screens.forEach(screen => {
         if (screen && screen.id === screenId) {
             screen.style.display = 'flex';
@@ -106,27 +109,20 @@ function showScreen(screenId) {
         }
     });
 
-    // Check which screens should have music playing
+    // Music control logic
     if (introMusic) {
         if (screenId === 'intro-screen' || screenId === 'instructions-screen') {
-            // Play intro music if it's not already playing
             if (introMusic.paused) {
                 introMusic.play().catch(e => console.log("Music auto-play prevented:", e));
             }
         } else {
-            // Pause intro music on all other screens
             introMusic.pause();
         }
     }
-    // Pause game music on screens other than the main desk
     if (gameMusic) {
         if (screenId !== 'desk') {
             gameMusic.pause();
         }
-    }
-
-    if (almanacModal.style.display === 'flex') {
-        closeAlmanac();
     }
 }
 
@@ -135,8 +131,8 @@ function showFeedbackMessage(message) {
 }
 
 function startGame() {
-    introMusic.pause(); // Stop the intro music
-    introMusic.currentTime = 0; // Rewind for next intro
+    introMusic.pause();
+    introMusic.currentTime = 0;
 
     chimeSound.play().catch(e => console.log("Chime auto-play prevented:", e));
     gameMusic.currentTime = 0;
@@ -151,7 +147,6 @@ function startGame() {
     showScreen('desk');
 }
 
-// New function to handle the initial start button click
 function handleStartClick() {
     startButton.style.display = 'none';
     introButtons.style.display = 'flex';
@@ -162,22 +157,30 @@ function handleStartClick() {
 }
 
 function initializeGame() {
-    // Add the new event listener for the start button
     if (startButton) {
         startButton.addEventListener('click', handleStartClick);
     }
     
-    // Add event listeners for the other buttons
     document.getElementById('play-button').addEventListener('click', startGame);
     document.getElementById('instructions-button').addEventListener('click', () => showScreen('instructions-screen'));
     document.getElementById('return-button').addEventListener('click', () => showScreen('intro-screen'));
     almanacButton.addEventListener('click', openAlmanac);
     submitEnrolButton.addEventListener('click', handleSubmit);
-    document.querySelector('#game-end-screen .button').addEventListener('click', () => {
+    
+    // Updated "Play Again" button listener
+    document.getElementById('play-again-button').addEventListener('click', () => {
         gameMusic.pause();
         gameMusic.currentTime = 0;
         showScreen('intro-screen');
     });
+
+    // New event listeners for the ACE App enrolment screen buttons
+    if (enrolOnlineButton) {
+        enrolOnlineButton.addEventListener('click', () => showScreen('app-enroll-screen'));
+    }
+    if (backToScoreScreenButton) {
+        backToScoreScreenButton.addEventListener('click', () => showScreen('game-end-screen'));
+    }
     
     showScreen('intro-screen');
 }
